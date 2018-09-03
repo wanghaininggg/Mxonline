@@ -1,0 +1,46 @@
+{% extends 'user_fav_base.html' %}
+{% block title %}个人收藏——课程{% endblock %}
+
+{% block user_fav_content %}
+    <div class="companycenter">
+        <div class="group_list brief">
+            {% for course in all_user_fav_course %}
+                <div class="module1_5 box">
+                    <a href="{% url 'course:course-detail' course.id %}">
+                                <img width="214" height="190" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                            </a>
+                    <div class="des">
+                                <a href="{% url 'course:course-detail' course.id %}"><h2>{{ course.name }}</h2></a>
+                                <span class="fl">时长：<i class="key">{{ course.learn_times }}</i></span>
+                                <span class="fr">学习人数：{{ course.students }}</span>
+                            </div>
+                    <div class="bottom">
+                                <span class="fl">{{ course.course_org.name }}</span>
+                                <span class="delete-group fr jsDeleteFav_course" data-favid="{{ course.id }}"></span>
+                            </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $('.jsDeleteFav_course').on('click', function(){
+            var _this = $(this),
+                favid = _this.attr('data-favid');
+            $.ajax({
+                url: "{% url 'org:org_add_fav' %}",
+                type: "POST",
+                dataType: "JSON",
+                data: {'fav_type': 1, 'fav_id': favid},
+                beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+                success: function(data) {
+                    Dml.fun.winReload();
+                }
+            });
+        });
+    </script>
+{% endblock %}

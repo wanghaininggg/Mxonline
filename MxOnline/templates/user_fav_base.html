@@ -1,0 +1,35 @@
+{% extends 'user_base.html' %}
+
+{% block title %}我的收藏{% endblock %}
+
+{% block content %}
+    <div class="right" >
+            <div class="personal_des Releasecont">
+                <div class="head">
+                    <h1>我的收藏</h1>
+                </div>
+            </div>
+            <div class="personal_des permessage">
+                <div class="head">
+                    <ul class="tab_header messagehead">
+                        <li class="{% ifequal current_page 'org'%}active{% endifequal %}"><a href="{% url 'user:user_fav_org' %}">课程机构</a> </li>
+                        <li class="{% ifequal current_page 'teacher'%}active{% endifequal %}"><a href="{% url 'user:user_fav_teacher' %}">授课教师 </a></li>
+                        <li class="{% ifequal current_page 'course'%}active{% endifequal %}"><a href="{% url 'user:user_fav_course' %}">公开课程</a></li>
+                    </ul>
+                </div>
+
+                {% block user_fav_content %}
+                {% endblock %}
+            </div>
+        </div>
+{% endblock %}
+
+{% block custom_bread %}
+    <div class="wp">
+        <ul  class="crumbs">
+            <li><a href="{% url 'index' %}">首页</a>></li>
+            <li><a href="{% url 'user:user_info' %}">个人中心</a>></li>
+            <li>我的收藏</li>
+        </ul>
+    </div>
+{% endblock %}
